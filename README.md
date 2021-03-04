@@ -1,4 +1,6 @@
-# Getting Started with Create React App
+# BARF Calculator
+📖 Project information: https://paper.dropbox.com/doc/Kalkulator-diety-psiej-BARFwersja-gotowana-ukqqSm1LsnAqDb0IPUEAS
+💻 Code style guide: https://paper.dropbox.com/doc/Code-style-guide--BGQ2x57cosMSlt72D6RxGLVYAg-8IKqLyEtvn4ZXL374czA0
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
