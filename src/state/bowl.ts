@@ -1,50 +1,23 @@
 import { atom, selector } from "recoil";
 import { groupBy } from "lodash-es";
 
+type FoodProduct = {
+  name: string;
+  value: string;
+  id: number;
+  weight: number;
+  fat: number;
+  protein: number;
+  type: string;
+};
+
 export const bowlState = atom({
   key: "bowlState",
-  default: [
-    {
-      name: "Chicken 🍗",
-      value: "chicken",
-      id: 1,
-      weight: 100,
-      fat: 6.0,
-      protein: 20,
-      type: "meat",
-    },
-    {
-      name: "Chicken 2 🍗",
-      value: "chicken-2",
-      id: 2,
-      weight: 100,
-      fat: 4.5,
-      protein: 17,
-      type: "meat",
-    },
-    {
-      name: "Chicken 3 🍗",
-      value: "chicken-3",
-      id: 3,
-      weight: 100,
-      fat: 4.5,
-      protein: 17,
-      type: "meat",
-    },
-    {
-      name: "Vegetable",
-      value: "vegetable",
-      id: 4,
-      weight: 100,
-      fat: 4.5,
-      protein: 17,
-      type: "vegetable",
-    },
-  ],
+  default: [] as FoodProduct[],
 });
 
 export const bowlGroupedByTypeState = selector({
-  key: "bowlGropedByTypeState",
+  key: "bowlGroupedByTypeState",
   get: ({ get }) => {
     const bowl = get(bowlState);
 
