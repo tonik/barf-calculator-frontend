@@ -1,4 +1,5 @@
 import { atom, selector } from "recoil";
+import { SuperElementAccessExpression } from "typescript";
 import { dogState } from './dog';
 
 interface MeatProductsWeights {
@@ -8,13 +9,35 @@ interface MeatProductsWeights {
   otherWeight: number;
 }
 
+interface Suplement {
+  value: number;
+  unit: string;
+}
+
+interface Suplements {
+  [key: string]: Suplement;
+}
+
+interface SuplementPercentages {
+  [key: string]: number
+}
 interface Weights {
-  dogWeight?: number;
+  dogWeight: number;
   fats: number;
   protein: number;
   meatTotalWeight: number;
   vegetableTotalWeight: number;
   meatProductsWeights: MeatProductsWeights;
+  suplements: Suplements;
+}
+
+interface Percentages {
+  fats: number;
+  protein: number;
+  meatTotalWeight: number;
+  vegetableTotalWeight: number;
+  meatProductsWeights: MeatProductsWeights;
+  suplements: SuplementPercentages;
 }
 
 export const nutritionState = atom({
@@ -30,6 +53,32 @@ export const nutritionState = atom({
       liverWeight: 0,
       otherWeight: 0,
     },
+    suplements: {
+      yeasts: {
+        value: 0,
+        unit: 'mg'
+      },
+      iodine: {
+        value: 0,
+        unit: 'mg'
+      },
+      taurine: {
+        value: 0,
+        unit: 'mg'
+      },
+      omega3: {
+        value: 0,
+        unit: 'mg'
+      },
+      vitaminD: {
+        value: 0,
+        unit: 'IU'
+      },
+      calcium: {
+        value: 0,
+        unit: 'g'
+      }
+    }
   },
 });
 
@@ -47,21 +96,47 @@ export const targetNutritionState = selector({
         meatTotalWeight,
         vegetableTotalWeight,
         meatProductsWeights: {
-            meatWeight: meatTotalWeight * 0.6,
-            offalWeight: meatTotalWeight * 0.2,
-            liverWeight: meatTotalWeight * 0.05,
-            otherWeight: meatTotalWeight * 0.15,
+          meatWeight: meatTotalWeight * 0.6,
+          offalWeight: meatTotalWeight * 0.2,
+          liverWeight: meatTotalWeight * 0.05,
+          otherWeight: meatTotalWeight * 0.15,
         },
+        suplements: {
+          yeasts: {
+            value: foodWeight * 0.01,
+            unit: 'mg'
+          },
+          iodine: {
+            value: (foodWeight * 0.3) / 100 * 0.12,
+            unit: 'mg'
+          },
+          taurine: {
+            value: dogWeight * 25,
+            unit: 'mg'
+          },
+          omega3: {
+            value: dogWeight * 30,
+            unit: 'mg'
+          },
+          vitaminD: {
+            value: dogWeight * 10,
+            unit: 'IU'
+          },
+          calcium: {
+            value: foodWeight * 7,
+            unit: 'g'
+          }
+        }
     }
   }
 })
 
 export const percentNutritionState = selector({
   key: 'percentNutritionState',
-  get: ({get}): Weights => {
+  get: ({get}): Percentages => {
     const targetState = get(targetNutritionState);
     const currentState = get(nutritionState);
-    const percentages = {
+    return {
       fats: currentState.fats / targetState.fats * 100,
       protein: currentState.fats / targetState.protein * 100,
       meatTotalWeight: currentState.meatTotalWeight / targetState.meatTotalWeight * 100,
@@ -71,8 +146,15 @@ export const percentNutritionState = selector({
           offalWeight: currentState.meatProductsWeights.offalWeight / targetState.meatProductsWeights.offalWeight * 100,
           liverWeight: currentState.meatProductsWeights.liverWeight / targetState.meatProductsWeights.liverWeight * 100,
           otherWeight: currentState.meatProductsWeights.otherWeight / targetState.meatProductsWeights.otherWeight * 100
+      },
+      suplements: {
+        yeasts: currentState.suplements.yeasts.value / targetState.suplements.yeasts.value * 100,
+        iodine: currentState.suplements.iodine.value / targetState.suplements.iodine.value * 100,
+        taurine: currentState.suplements.taurine.value / targetState.suplements.taurine.value * 100,
+        omega3: currentState.suplements.omega3.value / targetState.suplements.omega3.value * 100,
+        vitaminD: currentState.suplements.vitaminD.value / targetState.suplements.vitaminD.value * 100,
+        calcium: currentState.suplements.calcium.value / targetState.suplements.calcium.value * 100
       }
-  }
-    return percentages
+    }
   }
 });
