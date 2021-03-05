@@ -43,7 +43,7 @@ export const bowlState = atom({
   ],
 });
 
-export const bowlGropedByTypeState = selector({
+export const bowlGroupedByTypeState = selector({
   key: "bowlGropedByTypeState",
   get: ({ get }) => {
     const bowl = get(bowlState);
