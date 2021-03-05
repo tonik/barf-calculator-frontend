@@ -1,12 +1,8 @@
-import ProgressBar from 'components/ProgressBar';
-import React from 'react';
+import React from "react";
+import { RecoilRoot } from "recoil";
 
 function App() {
-  return (
-    <>
-      <ProgressBar value={150} maxValue={100} />
-    </>
-  );
+  return <RecoilRoot></RecoilRoot>;
 }
 
 export default App;
