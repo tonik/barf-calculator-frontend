@@ -6,3 +6,4 @@ export const dogState = atom({
     weight: 0,
   },
 });
+
