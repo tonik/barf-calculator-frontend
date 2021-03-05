@@ -1,4 +1,5 @@
 import { atom, selector } from "recoil";
+import { groupBy } from "lodash-es";
 
 export const bowlState = atom({
   key: "bowlState",
@@ -40,4 +41,13 @@ export const bowlState = atom({
       type: "vegetable",
     },
   ],
+});
+
+export const bowlGropedByTypeState = selector({
+  key: "bowlGropedByTypeState",
+  get: ({ get }) => {
+    const bowl = get(bowlState);
+
+    return groupBy(bowl, (product: any) => product.type);
+  },
 });
