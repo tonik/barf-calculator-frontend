@@ -9,7 +9,7 @@ interface MeatProductsWeights {
 }
 
 interface Weights {
-  dogWeight: number;
+  dogWeight?: number;
   fats: number;
   protein: number;
   meatTotalWeight: number;
@@ -55,3 +55,24 @@ export const targetNutritionState = selector({
     }
   }
 })
+
+export const percentNutritionState = selector({
+  key: 'percentNutritionState',
+  get: ({get}): Weights => {
+    const targetState = get(targetNutritionState);
+    const currentState = get(nutritionState);
+    const percentages = {
+      fats: currentState.fats / targetState.fats * 100,
+      protein: currentState.fats / targetState.protein * 100,
+      meatTotalWeight: currentState.meatTotalWeight / targetState.meatTotalWeight * 100,
+      vegetableTotalWeight: currentState.vegetableTotalWeight / targetState.vegetableTotalWeight * 100,
+      meatProductsWeights: {
+          meatWeight: currentState.meatProductsWeights.meatWeight / targetState.meatProductsWeights.meatWeight * 100,
+          offalWeight: currentState.meatProductsWeights.offalWeight / targetState.meatProductsWeights.offalWeight * 100,
+          liverWeight: currentState.meatProductsWeights.liverWeight / targetState.meatProductsWeights.liverWeight * 100,
+          otherWeight: currentState.meatProductsWeights.otherWeight / targetState.meatProductsWeights.otherWeight * 100
+      }
+  }
+    return percentages
+  }
+});
