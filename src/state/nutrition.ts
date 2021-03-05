@@ -1,5 +1,4 @@
 import { atom, selector } from "recoil";
-import { SuperElementAccessExpression } from "typescript";
 import { dogState } from './dog';
 
 interface MeatProductsWeights {
